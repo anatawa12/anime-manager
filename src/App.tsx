@@ -107,6 +107,13 @@ function App() {
 
     return <>
         <CssBaseline/>
+        <p>アニメやドラマを何話まで見たかを管理するツール</p>
+        <p>ニコニコのような一週間無料公開なもの向けに作りました。</p>
+        <p>ブラウザに入力した情報が保存されます。</p>
+        <p>
+            <small>&copy; anatawa12 and other contributors 2021</small>
+            You can see project page on <a href={"https://github.com/anatawa12/anime-manager"}>GitHub</a>.
+        </p>
         <AnimeTable
             info={allAnimeInfo}
             setInfo={setAllAnimeInfo}
