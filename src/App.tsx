@@ -162,8 +162,8 @@ class App extends React.Component<{}, AppState> {
                     shown.push(animeNumber)
                 }
             }
-            if (numbers[numbers.length - 1].watched) shown.push(numbers[numbers.length - 1])
-            if (numbers[numbers.length - 2].watched) shown.push(numbers[numbers.length - 2])
+            if (numbers[numbers.length - 1]?.watched) shown.push(numbers[numbers.length - 1])
+            if (numbers[numbers.length - 2]?.watched) shown.push(numbers[numbers.length - 2])
         }
         shown.sort((a, b) => compareAsc(a.available, b.available))
         return shown
