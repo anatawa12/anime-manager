@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <path d="M1024,128C1024,57.355 966.645,0 896,0L128,0C57.355,0 0,57.355 0,128L0,896C0,966.645 57.355,1024 128,1024L896,1024C966.645,1024 1024,966.645 1024,896L1024,128Z" style="fill:rgb(34,34,35);"/>
+    <g>
+        <text x="34.234px" y="410.006px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:430px;fill:rgb(0,221,255);">ANM</text>
+        <text x="10.403px" y="922.006px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:430px;fill:rgb(0,221,255);">MNG</text>
+    </g>
+</svg>
