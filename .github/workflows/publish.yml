@@ -1,0 +1,49 @@
+name: Publish
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch: {}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: fix fetch
+        run: |
+          # fetch the branch to be published
+          git remote set-branches --add origin gh-pages
+          git fetch --depth=2 origin
+      - uses: anatawa12/something-releaser@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: 'yarn'
+
+      # building
+      - name: Build
+        env:
+          PUBLIC_URL: /anime-manager
+        run: yarn && yarn build
+
+      # publishing
+      - name: Publish
+        shell: bash
+        run: |
+          shopt -s extglob
+          set-git-user anatawa12-bot
+          HASH="$(git rev-parse HEAD)"
+          # checkout gh-pages at origin/gh-pages witout chan igng local tree
+          git branch gh-pages origin/gh-pages
+          git symbolic-ref HEAD refs/heads/gh-pages
+          # remove files except for dist
+          rm -rf .!(git||.) !(build)
+          # move everythings in dist
+          mv -f build/* .
+          # add modified files and commit
+          git add .
+          git reset --soft $(git commit-tree -p HEAD -p $HASH -m "release at $HASH" $(git write-tree))
+          # create push
+          git push
+          
