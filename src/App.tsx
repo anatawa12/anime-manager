@@ -1,5 +1,4 @@
 import React from 'react';
-import "./App.css";
 import AnimeTable, {AllAnimeInfo} from "./AnimeTable";
 import CssBaseline from "@mui/material/CssBaseline";
 import {format, parse, startOfDay} from "date-fns";
