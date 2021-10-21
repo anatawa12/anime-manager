@@ -45,7 +45,7 @@ interface SingleAnimeProps {
 
 interface SingleAnimeNumber {
     id: string,
-    number: number,
+    index: number,
     available: Date,
     info: AnimeInfo,
     watched: boolean
@@ -113,31 +113,30 @@ class App extends React.Component<{}, AppState> {
         const watched = this.state.global.watched;
         const result: Record<string, SingleAnimeNumber[]> = Object.create(null)
 
-        function computeAvailableDate(number: number, info: AnimeInfo): Date {
-            const daysDiff = (number - info.first) * info.intervalDays
-            return addDays(info.start, daysDiff);
+        function computeAvailableDate(index: number, info: AnimeInfo): Date {
+            return addDays(info.start, index * info.intervalDays);
         }
 
         for (let [id, info] of Object.entries(anime)) {
             const map = new Map<number, SingleAnimeNumber>();
             const theDayNextWillBeReleased = addDays(today, info.intervalDays);
 
-            for (const number of watched[id]) {
-                map.set(number, {
-                    id, number, info,
-                    available: computeAvailableDate(number, info),
+            for (const index of watched[id]) {
+                map.set(index, {
+                    id, index, info,
+                    available: computeAvailableDate(index, info),
                     watched: true
                 })
             }
 
             const array: SingleAnimeNumber[] = Array.from(map.values());
 
-            for (let number = info.first; ; number++) {
-                const available = computeAvailableDate(number, info)
+            for (let index = 0; ; index++) {
+                const available = computeAvailableDate(index, info)
                 if (compareAsc(available, theDayNextWillBeReleased) > 0) break;
-                if (map.has(number)) continue;
+                if (map.has(index)) continue;
                 array.push({
-                    id, number, info, available,
+                    id, index, info, available,
                     watched: false,
                 })
             }
@@ -207,13 +206,13 @@ class App extends React.Component<{}, AppState> {
                     </TableHead>
                     <TableBody>
                         {allAnimeNumbers.map(animeNumber => <SingleAnime
-                            key={`${animeNumber.id}-${animeNumber.number}`}
-                            number={animeNumber.number}
+                            key={`${animeNumber.id}-${animeNumber.index}`}
+                            number={animeNumber.index + animeNumber.info.first}
                             available={animeNumber.available}
                             animeInfo={animeNumber.info}
                             updateAnimeInfo={this.updateAnimeInfo.bind(this, animeNumber.id)}
                             watched={animeNumber.watched}
-                            markWatched={this.markWatched.bind(this, animeNumber.id, animeNumber.number)}
+                            markWatched={this.markWatched.bind(this, animeNumber.id, animeNumber.index)}
                         />)}
                     </TableBody>
                 </Table>
