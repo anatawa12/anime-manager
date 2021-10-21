@@ -113,6 +113,8 @@ function App() {
         <p>
             <small>&copy; anatawa12 and other contributors 2021</small>
             You can see project page on <a href={"https://github.com/anatawa12/anime-manager"}>GitHub</a>.
+            See <a href={"./license-disclaimer.txt"}>license-disclaimer</a> for licenses of 
+            third-pretty software.
         </p>
         <AnimeTable
             info={allAnimeInfo}
