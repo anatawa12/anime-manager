@@ -120,6 +120,7 @@ class App extends React.Component<{}, AppState> {
 
         for (let [id, info] of Object.entries(anime)) {
             const map = new Map<number, SingleAnimeNumber>();
+            const theDayNextWillBeReleased = addDays(today, info.intervalDays);
 
             for (const number of watched[id]) {
                 map.set(number, {
@@ -133,36 +134,36 @@ class App extends React.Component<{}, AppState> {
 
             for (let number = info.first; ; number++) {
                 const available = computeAvailableDate(number, info)
-                if (compareAsc(available, today) > 0) break;
+                if (compareAsc(available, theDayNextWillBeReleased) > 0) break;
                 if (map.has(number)) continue;
                 array.push({
                     id, number, info, available,
                     watched: false,
                 })
             }
+            array.sort((a, b) => compareAsc(a.available, b.available));
 
             result[id] = array;
         }
         return result
     }
 
+    // AnimeNumbers which one of:
+    //    not watched
+    //    the latest
+    //    the next
+    // will be returned
     computeNotWatchedAnime() {
         const allNumbers = this.computeAnimeNumbers();
         const shown: SingleAnimeNumber[] = [];
         for (let numbers of Object.values(allNumbers)) {
-            let latest: SingleAnimeNumber = numbers[0]
-            let latestAdded = !numbers[0]?.watched;
             for (const animeNumber of numbers) {
-                if (compareAsc(animeNumber.available, latest.available) > 0) {
-                    latest = animeNumber
-                    latestAdded = !animeNumber.watched
-                }
                 if (!animeNumber.watched) {
                     shown.push(animeNumber)
                 }
             }
-            if (latest && !latestAdded)
-                shown.push(latest)
+            if (numbers[numbers.length - 1].watched) shown.push(numbers[numbers.length - 1])
+            if (numbers[numbers.length - 2].watched) shown.push(numbers[numbers.length - 2])
         }
         shown.sort((a, b) => compareAsc(a.available, b.available))
         return shown
