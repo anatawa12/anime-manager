@@ -4,15 +4,7 @@ import AnimeTable, {AllAnimeInfo} from "./AnimeTable";
 import CssBaseline from "@mui/material/CssBaseline";
 
 function App() {
-    const [allAnimeInfo, setAllAnimeInfo] = React.useState<AllAnimeInfo>({
-        "random": {
-            name: "アニメ1",
-            start: new Date(),
-            first: 1,
-            intervalDays: 7,
-            watched: new Set(),
-        },
-    })
+    const [allAnimeInfo, setAllAnimeInfo] = React.useState<AllAnimeInfo>({})
 
     return <>
         <CssBaseline/>

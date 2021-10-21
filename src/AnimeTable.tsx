@@ -1,5 +1,5 @@
 import React from "react";
-import {addDays, compareAsc, compareDesc, endOfDay, format} from "date-fns";
+import {addDays, compareAsc, compareDesc, endOfDay, format, startOfDay} from "date-fns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import jaLocale from "date-fns/locale/ja";
@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import {DatePicker} from "@mui/lab";
 import "./AnimeTable.css";
+import {encode} from "base64-arraybuffer";
 
 export type AllAnimeInfo = Record<string, AnimeInfo>
 
@@ -177,6 +178,29 @@ class AnimeTable extends React.Component<AnimeTableProps, AnimeTableState> {
         }
     }
 
+    addNewAnime() {
+        // util: random id gen
+        this.props.setInfo((old) => {
+            let id: string
+            do id = randomStr()
+            while (old[id] != null);
+
+            return {
+                ...old,
+                [id]: {
+                    name: `アニメ${Object.keys(old).length + 1}`,
+                    start: startOfDay(new Date()),
+                    first: 1,
+                    intervalDays: 7,
+                    watched: new Set(),
+                },
+            }
+        });
+        function randomStr(): string {
+            return encode(crypto.getRandomValues(new Uint8Array(9)).buffer)
+        }
+    }
+
     render() {
         console.log(this.props.info);
 
@@ -223,7 +247,7 @@ class AnimeTable extends React.Component<AnimeTableProps, AnimeTableState> {
                         })}
                     </TableBody>
                 </Table>
-                <Button>+</Button>
+                <Button onClick={this.addNewAnime.bind(this)}>+</Button>
             </LocalizationProvider>
         </>
     }
