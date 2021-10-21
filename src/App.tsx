@@ -228,6 +228,7 @@ function SingleAnime(props: SingleAnimeProps) {
         <TableCell>
             <TextField
                 size={"small"}
+                fullWidth
                 value={props.animeInfo.name}
                 onChange={(e) =>
                     props.updateAnimeInfo({name: e.target.value})}
@@ -248,6 +249,7 @@ function SingleAnime(props: SingleAnimeProps) {
                 value={props.animeInfo.start}
                 renderInput={(params) => <TextField
                     {...params}
+                    style={{width: "150px"}}
                     size={"small"}
                 />}
             />
@@ -255,6 +257,7 @@ function SingleAnime(props: SingleAnimeProps) {
         <TableCell>
             <TextField
                 size={"small"}
+                style={{width: "100px"}}
                 value={props.animeInfo.first}
                 onChange={(e) =>
                     props.updateAnimeInfo({first: Number(e.target.value)})}
@@ -267,6 +270,7 @@ function SingleAnime(props: SingleAnimeProps) {
         <TableCell>
             <TextField
                 size={"small"}
+                style={{width: "100px"}}
                 value={props.animeInfo.intervalDays}
                 onChange={(e) =>
                     props.updateAnimeInfo({intervalDays: Number(e.target.value)})}
