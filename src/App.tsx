@@ -112,6 +112,8 @@ function App() {
         <p>ブラウザに入力した情報が保存されます。</p>
         <p>
             <small>&copy; anatawa12 and other contributors 2021</small>
+            This software is published under MIT License.
+            See <a href={"https://github.com/anatawa12/anime-manager/tree/HEAD/LICENSE"}>LICENSE on GitHub</a>.
             You can see project page on <a href={"https://github.com/anatawa12/anime-manager"}>GitHub</a>.
             See <a href={"./license-disclaimer.txt"}>license-disclaimer</a> for licenses of 
             third-pretty software.
