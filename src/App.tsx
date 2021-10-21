@@ -15,7 +15,7 @@ import {
     TextField
 } from "@mui/material";
 import {DatePicker} from "@mui/lab";
-import {addDays, compareAsc, endOfDay, format} from "date-fns";
+import {addDays, compareAsc, compareDesc, endOfDay, format} from "date-fns";
 
 interface AppState {
     global: GlobalState,
@@ -107,6 +107,10 @@ class App extends React.Component<{}, AppState> {
         });
     }
 
+    static sortAnime(array: SingleAnimeNumber[]) {
+        array.sort((a, b) => compareDesc(a.available, b.available));
+    }
+
     computeAnimeNumbers(): Record<string, SingleAnimeNumber[]> {
         const today = endOfDay(new Date());
         const anime = this.state.global.anime;
@@ -140,7 +144,7 @@ class App extends React.Component<{}, AppState> {
                     watched: false,
                 })
             }
-            array.sort((a, b) => compareAsc(a.available, b.available));
+            App.sortAnime(array);
 
             result[id] = array;
         }
@@ -161,17 +165,17 @@ class App extends React.Component<{}, AppState> {
                     shown.push(animeNumber)
                 }
             }
-            if (numbers[numbers.length - 1]?.watched) shown.push(numbers[numbers.length - 1])
-            if (numbers[numbers.length - 2]?.watched) shown.push(numbers[numbers.length - 2])
+            if (numbers[0]?.watched) shown.push(numbers[0])
+            if (numbers[1]?.watched) shown.push(numbers[1])
         }
-        shown.sort((a, b) => compareAsc(a.available, b.available))
+        App.sortAnime(shown);
         return shown
     }
 
     computeAllAnime() {
         const allNumbers = this.computeAnimeNumbers();
         const shown: SingleAnimeNumber[] = Object.values(allNumbers).flatMap(it => it);
-        shown.sort((a, b) => compareAsc(a.available, b.available))
+        App.sortAnime(shown);
         return shown
     }
 
