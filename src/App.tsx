@@ -19,7 +19,7 @@ import {addDays, compareAsc, endOfDay, format} from "date-fns";
 
 interface AppState {
     global: GlobalState,
-    notWatchedOnly: boolean,
+    showAll: boolean,
 }
 
 interface GlobalState {
@@ -66,7 +66,7 @@ class App extends React.Component<{}, AppState> {
                 },
                 watched: {"random": new Set()},
             },
-            notWatchedOnly: true,
+            showAll: false,
         }
     }
 
@@ -178,19 +178,19 @@ class App extends React.Component<{}, AppState> {
     render() {
         console.log(this.state.global);
         
-        const allAnimeNumbers = this.state.notWatchedOnly 
-            ? this.computeNotWatchedAnime()
-            : this.computeAllAnime();
+        const allAnimeNumbers = this.state.showAll 
+            ? this.computeAllAnime()
+            : this.computeNotWatchedAnime();
 
         return <>
             <CssBaseline/>
             <LocalizationProvider dateAdapter={DateAdapter} locale={jaLocale}>
                 <FormControlLabel
                     control={<Switch
-                        checked={this.state.notWatchedOnly}
-                        onChange={(_, notWatchedOnly) => this.setState({notWatchedOnly})}
+                        checked={this.state.showAll}
+                        onChange={(_, all) => this.setState({showAll: all})}
                     />}
-                    label={"未視聴または最新話のみ"}
+                    label={"すべて表示"}
                 />
                 <Table size={"small"}>
                     <TableHead>
