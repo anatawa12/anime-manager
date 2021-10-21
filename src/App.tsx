@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import {DatePicker} from "@mui/lab";
 import {addDays, compareAsc, compareDesc, endOfDay, format} from "date-fns";
+import "./App.css";
 
 interface AppState {
     global: GlobalState,
@@ -44,11 +45,17 @@ interface SingleAnimeProps {
 }
 
 interface SingleAnimeNumber {
+    type: 'anime',
     id: string,
     index: number,
     available: Date,
     info: AnimeInfo,
     watched: boolean
+}
+
+interface TodayDividerMarker {
+    type: 'today-marker',
+    available: Date,
 }
 
 class App extends React.Component<{}, AppState> {
@@ -107,7 +114,7 @@ class App extends React.Component<{}, AppState> {
         });
     }
 
-    static sortAnime(array: SingleAnimeNumber[]) {
+    static sortAnime(array: { available: Date }[]) {
         array.sort((a, b) => compareDesc(a.available, b.available));
     }
 
@@ -128,6 +135,7 @@ class App extends React.Component<{}, AppState> {
             for (const index of watched[id]) {
                 map.set(index, {
                     id, index, info,
+                    type: "anime",
                     available: computeAvailableDate(index, info),
                     watched: true
                 })
@@ -141,6 +149,7 @@ class App extends React.Component<{}, AppState> {
                 if (map.has(index)) continue;
                 array.push({
                     id, index, info, available,
+                    type: "anime",
                     watched: false,
                 })
             }
@@ -156,9 +165,9 @@ class App extends React.Component<{}, AppState> {
     //    the latest
     //    the next
     // will be returned
-    computeNotWatchedAnime() {
+    computeNotWatchedAnime(): (SingleAnimeNumber | TodayDividerMarker)[] {
         const allNumbers = this.computeAnimeNumbers();
-        const shown: SingleAnimeNumber[] = [];
+        const shown: (SingleAnimeNumber | TodayDividerMarker)[] = [];
         for (let numbers of Object.values(allNumbers)) {
             for (const animeNumber of numbers) {
                 if (!animeNumber.watched) {
@@ -168,21 +177,31 @@ class App extends React.Component<{}, AppState> {
             if (numbers[0]?.watched) shown.push(numbers[0])
             if (numbers[1]?.watched) shown.push(numbers[1])
         }
+        shown.push(App.todayAnimeMarker());
         App.sortAnime(shown);
         return shown
     }
 
-    computeAllAnime() {
+    computeAllAnime(): (SingleAnimeNumber | TodayDividerMarker)[] {
         const allNumbers = this.computeAnimeNumbers();
-        const shown: SingleAnimeNumber[] = Object.values(allNumbers).flatMap(it => it);
+        const shown: (SingleAnimeNumber | TodayDividerMarker)[] = Object.values(allNumbers).flatMap(it => it);
+        shown.push(App.todayAnimeMarker());
         App.sortAnime(shown);
         return shown
+    }
+
+    private static todayAnimeMarker(): TodayDividerMarker {
+        const today = endOfDay(new Date());
+        return {
+            type: 'today-marker',
+            available: today,
+        }
     }
 
     render() {
         console.log(this.state.global);
-        
-        const allAnimeNumbers = this.state.showAll 
+
+        const allAnimeNumbers = this.state.showAll
             ? this.computeAllAnime()
             : this.computeNotWatchedAnime();
 
@@ -209,21 +228,37 @@ class App extends React.Component<{}, AppState> {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {allAnimeNumbers.map(animeNumber => <SingleAnime
-                            key={`${animeNumber.id}-${animeNumber.index}`}
-                            number={animeNumber.index + animeNumber.info.first}
-                            available={animeNumber.available}
-                            animeInfo={animeNumber.info}
-                            updateAnimeInfo={this.updateAnimeInfo.bind(this, animeNumber.id)}
-                            watched={animeNumber.watched}
-                            markWatched={this.markWatched.bind(this, animeNumber.id, animeNumber.index)}
-                        />)}
+                        {allAnimeNumbers.map(animeNumber => {
+                            if (animeNumber.type === 'today-marker') {
+                                return <TodayDivider key={`today-marker`}/>;
+                            } else {
+                                return <SingleAnime
+                                    key={`${animeNumber.id}-${animeNumber.index}`}
+                                    number={animeNumber.index + animeNumber.info.first}
+                                    available={animeNumber.available}
+                                    animeInfo={animeNumber.info}
+                                    updateAnimeInfo={this.updateAnimeInfo.bind(this, animeNumber.id)}
+                                    watched={animeNumber.watched}
+                                    markWatched={this.markWatched.bind(this, animeNumber.id, animeNumber.index)}
+                                />;
+                            }
+                        })}
                     </TableBody>
                 </Table>
                 <Button>+</Button>
             </LocalizationProvider>
         </>
     }
+}
+
+function TodayDivider() {
+    return <TableRow>
+        <TableCell colSpan={7}>
+            <div className={"TodayMarker"}>
+                今日
+            </div>
+        </TableCell>
+    </TableRow>
 }
 
 function SingleAnime(props: SingleAnimeProps) {
