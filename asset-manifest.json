@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/anime-manager/static/css/main.d3d3a54b.chunk.css",
+    "main.js": "/anime-manager/static/js/main.26b15854.chunk.js",
+    "main.js.map": "/anime-manager/static/js/main.26b15854.chunk.js.map",
+    "runtime-main.js": "/anime-manager/static/js/runtime-main.b97df344.js",
+    "runtime-main.js.map": "/anime-manager/static/js/runtime-main.b97df344.js.map",
+    "static/js/2.2ddeca55.chunk.js": "/anime-manager/static/js/2.2ddeca55.chunk.js",
+    "static/js/2.2ddeca55.chunk.js.map": "/anime-manager/static/js/2.2ddeca55.chunk.js.map",
+    "static/js/3.e2757ef4.chunk.js": "/anime-manager/static/js/3.e2757ef4.chunk.js",
+    "static/js/3.e2757ef4.chunk.js.map": "/anime-manager/static/js/3.e2757ef4.chunk.js.map",
+    "index.html": "/anime-manager/index.html",
+    "static/css/main.d3d3a54b.chunk.css.map": "/anime-manager/static/css/main.d3d3a54b.chunk.css.map",
+    "static/js/2.2ddeca55.chunk.js.LICENSE.txt": "/anime-manager/static/js/2.2ddeca55.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.b97df344.js",
+    "static/js/2.2ddeca55.chunk.js",
+    "static/css/main.d3d3a54b.chunk.css",
+    "static/js/main.26b15854.chunk.js"
+  ]
+}
