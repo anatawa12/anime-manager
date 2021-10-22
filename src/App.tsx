@@ -97,10 +97,10 @@ function deserialize(text: string): AllAnimeInfo {
 }
 
 function App() {
-    const [allAnimeInfo, setAllAnimeInfo] = React.useState<AllAnimeInfo>(() => 
+    const [allAnimeInfo, setAllAnimeInfo] = React.useState<AllAnimeInfo>(() =>
         deserialize(localStorage.getItem(localStorageKey) ?? "{}"))
 
-    if (Object.keys(allAnimeInfo).length !== 0 || localStorage.getItem(localStorageKey)){
+    if (Object.keys(allAnimeInfo).length !== 0 || localStorage.getItem(localStorageKey)) {
         localStorage.setItem(localStorageKey, serialize(allAnimeInfo))
         console.log("saved")
     }
@@ -110,13 +110,15 @@ function App() {
         <p>アニメやドラマを何話まで見たかを管理するツール</p>
         <p>ニコニコのような一週間無料公開なもの向けに作りました。</p>
         <p>ブラウザに入力した情報が保存されます。</p>
+        <p><small>&copy; anatawa12 and other contributors 2021</small></p>
         <p>
-            <small>&copy; anatawa12 and other contributors 2021</small>
-            This software is published under MIT License.
-            See <a href={"https://github.com/anatawa12/anime-manager/tree/HEAD/LICENSE"}>LICENSE on GitHub</a>.
-            You can see project page on <a href={"https://github.com/anatawa12/anime-manager"}>GitHub</a>.
-            See <a href={"./license-disclaimer.txt"}>license-disclaimer</a> for licenses of 
-            third-pretty software.
+            <small>
+                This software is published under MIT License.
+                See <a href={"https://github.com/anatawa12/anime-manager/tree/HEAD/LICENSE"}>LICENSE on GitHub</a>.
+                You can see project page on <a href={"https://github.com/anatawa12/anime-manager"}>GitHub</a>.
+                See <a href={"./license-disclaimer.txt"}>license-disclaimer</a> for licenses of
+                third-pretty software.
+            </small>
         </p>
         <AnimeTable
             info={allAnimeInfo}
