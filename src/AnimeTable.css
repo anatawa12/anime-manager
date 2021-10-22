@@ -24,3 +24,7 @@
   left: 0.5em;
   margin-right: -50%;
 }
+
+.AnimeTable {
+  min-width: 1000px;
+}

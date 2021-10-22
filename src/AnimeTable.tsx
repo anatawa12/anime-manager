@@ -210,44 +210,46 @@ class AnimeTable extends React.Component<AnimeTableProps, AnimeTableState> {
 
         return <>
             <LocalizationProvider dateAdapter={DateAdapter} locale={jaLocale}>
-                <FormControlLabel
-                    control={<Switch
-                        checked={this.state.showAll}
-                        onChange={(_, all) => this.setState({showAll: all})}
-                    />}
-                    label={"すべて表示"}
-                />
-                <Table size={"small"}>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>アニメ</TableCell>
-                            <TableCell>話数</TableCell>
-                            <TableCell>放送日</TableCell>
-                            <TableCell>視聴済み</TableCell>
-                            <TableCell>初回放送日</TableCell>
-                            <TableCell>初回</TableCell>
-                            <TableCell>隔日</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {allAnimeNumbers.map(animeNumber => {
-                            if (animeNumber.type === 'today-marker') {
-                                return <TodayDivider key={`today-marker`}/>;
-                            } else {
-                                return <SingleAnime
-                                    key={`${animeNumber.id}-${animeNumber.index}`}
-                                    number={animeNumber.index + animeNumber.info.first}
-                                    available={animeNumber.available}
-                                    animeInfo={animeNumber.info}
-                                    updateAnimeInfo={this.updateAnimeInfo.bind(this, animeNumber.id)}
-                                    watched={animeNumber.watched}
-                                    markWatched={this.markWatched.bind(this, animeNumber.id, animeNumber.index)}
-                                />;
-                            }
-                        })}
-                    </TableBody>
-                </Table>
-                <Button onClick={this.addNewAnime.bind(this)}>+</Button>
+                <div className={"AnimeTable"}>
+                    <FormControlLabel
+                        control={<Switch
+                            checked={this.state.showAll}
+                            onChange={(_, all) => this.setState({showAll: all})}
+                        />}
+                        label={"すべて表示"}
+                    />
+                    <Table size={"small"}>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>アニメ</TableCell>
+                                <TableCell>話数</TableCell>
+                                <TableCell>放送日</TableCell>
+                                <TableCell>視聴済み</TableCell>
+                                <TableCell>初回放送日</TableCell>
+                                <TableCell>初回</TableCell>
+                                <TableCell>隔日</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {allAnimeNumbers.map(animeNumber => {
+                                if (animeNumber.type === 'today-marker') {
+                                    return <TodayDivider key={`today-marker`}/>;
+                                } else {
+                                    return <SingleAnime
+                                        key={`${animeNumber.id}-${animeNumber.index}`}
+                                        number={animeNumber.index + animeNumber.info.first}
+                                        available={animeNumber.available}
+                                        animeInfo={animeNumber.info}
+                                        updateAnimeInfo={this.updateAnimeInfo.bind(this, animeNumber.id)}
+                                        watched={animeNumber.watched}
+                                        markWatched={this.markWatched.bind(this, animeNumber.id, animeNumber.index)}
+                                    />;
+                                }
+                            })}
+                        </TableBody>
+                    </Table>
+                    <Button onClick={this.addNewAnime.bind(this)}>+</Button>
+                </div>
             </LocalizationProvider>
         </>
     }
