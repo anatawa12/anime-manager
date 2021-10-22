@@ -26,5 +26,13 @@
 }
 
 .AnimeTable {
-  min-width: 1000px;
+  min-width: 500px;
+}
+
+.EditButton {
+  width: 1%;
+}
+
+.MinWidth {
+  min-width: 0 !important;
 }

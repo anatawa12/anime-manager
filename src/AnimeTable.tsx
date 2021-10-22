@@ -3,8 +3,14 @@ import {addDays, compareAsc, compareDesc, endOfDay, format, startOfDay} from "da
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import jaLocale from "date-fns/locale/ja";
+import EditIcon from '@mui/icons-material/Edit';
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import FormControl from '@mui/material/FormControl';
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import Table from "@mui/material/Table";
@@ -34,6 +40,7 @@ interface SingleAnimeProps {
     updateAnimeInfo: (update: Partial<AnimeInfo>) => void,
     watched: boolean,
     markWatched: (watched: boolean) => void,
+    delete: () => void,
 }
 
 interface SingleAnimeNumber {
@@ -65,6 +72,14 @@ class AnimeTable extends React.Component<AnimeTableProps, AnimeTableState> {
         this.state = {
             showAll: false,
         }
+    }
+
+    deleteAnime(id: string) {
+        this.props.setInfo((old) => {
+            const newObj = Object.assign({} as AllAnimeInfo, old);
+            delete newObj[id];
+            return newObj;
+        });
     }
 
     updateAnimeInfo(id: string, info: Partial<AnimeInfo>) {
@@ -220,13 +235,11 @@ class AnimeTable extends React.Component<AnimeTableProps, AnimeTableState> {
                     <Table size={"small"}>
                         <TableHead>
                             <TableRow>
+                                <TableCell/>
                                 <TableCell>アニメ</TableCell>
                                 <TableCell>話数</TableCell>
                                 <TableCell>放送日</TableCell>
                                 <TableCell>視聴済み</TableCell>
-                                <TableCell>初回放送日</TableCell>
-                                <TableCell>初回</TableCell>
-                                <TableCell>隔日</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -242,6 +255,7 @@ class AnimeTable extends React.Component<AnimeTableProps, AnimeTableState> {
                                         updateAnimeInfo={this.updateAnimeInfo.bind(this, animeNumber.id)}
                                         watched={animeNumber.watched}
                                         markWatched={this.markWatched.bind(this, animeNumber.id, animeNumber.index)}
+                                        delete={this.deleteAnime.bind(this, animeNumber.id)}
                                     />;
                                 }
                             })}
@@ -265,16 +279,19 @@ function TodayDivider() {
 }
 
 function SingleAnime(props: SingleAnimeProps) {
+    const [open, setOpen] = React.useState(false);
+    const [deleteDialog, setDeleteDialog] = React.useState(false);
+
     return <TableRow>
-        <TableCell>
-            <TextField
-                size={"small"}
-                fullWidth
-                value={props.animeInfo.name}
-                onChange={(e) =>
-                    props.updateAnimeInfo({name: e.target.value})}
-            />
+        <TableCell className={"EditButton"}>
+            <Button
+                className={"MinWidth"}
+                onClick={() => setOpen(true)}
+            >
+                <EditIcon/>
+            </Button>
         </TableCell>
+        <TableCell>{props.animeInfo.name}</TableCell>
         <TableCell>{props.number}話</TableCell>
         <TableCell>{format(props.available, "yyyy/MM/dd")}</TableCell>
         <TableCell>
@@ -283,44 +300,77 @@ function SingleAnime(props: SingleAnimeProps) {
                 onChange={(e) => props.markWatched(e.target.checked)}
             />} label={"視聴済み"}/>
         </TableCell>
-        <TableCell>
-            <DatePicker
-                onChange={(start) => props.updateAnimeInfo({start: start!})}
-                mask={"____/__/__"}
-                value={props.animeInfo.start}
-                renderInput={(params) => <TextField
-                    {...params}
-                    style={{width: "150px"}}
-                    size={"small"}
-                />}
-            />
-        </TableCell>
-        <TableCell>
-            <TextField
-                size={"small"}
-                style={{width: "100px"}}
-                value={props.animeInfo.first}
-                onChange={(e) =>
-                    props.updateAnimeInfo({first: Number(e.target.value)})}
-                inputProps={{
-                    inputMode: "numeric",
-                    pattern: "[0-9]*"
-                }}
-            />
-        </TableCell>
-        <TableCell>
-            <TextField
-                size={"small"}
-                style={{width: "100px"}}
-                value={props.animeInfo.intervalDays}
-                onChange={(e) =>
-                    props.updateAnimeInfo({intervalDays: Number(e.target.value)})}
-                inputProps={{
-                    inputMode: "numeric",
-                    pattern: "[0-9]*"
-                }}
-            />
-        </TableCell>
+        <Dialog open={open}>
+            <DialogTitle>Edit {props.animeInfo.name}</DialogTitle>
+            <DialogContent>
+                <FormControl
+                    sx={{'& > :not(style)': { m: 1, width: '25ch' }}}
+                >
+                    <TextField
+                        size={"small"}
+                        fullWidth
+                        label={"名前"}
+                        value={props.animeInfo.name}
+                        onChange={(e) =>
+                            props.updateAnimeInfo({name: e.target.value})}
+                    />
+                    <DatePicker
+                        onChange={(start) => props.updateAnimeInfo({start: start!})}
+                        mask={"____/__/__"}
+                        value={props.animeInfo.start}
+                        renderInput={(params) => <TextField
+                            {...params}
+                            size={"small"}
+                            fullWidth
+                            label={"初回放送日"}
+                        />}
+                    />
+                    <TextField
+                        size={"small"}
+                        fullWidth
+                        label={"初回"}
+                        value={props.animeInfo.first}
+                        onChange={(e) =>
+                            props.updateAnimeInfo({first: Number(e.target.value)})}
+                        inputProps={{
+                            inputMode: "numeric",
+                            pattern: "[0-9]*"
+                        }}
+                    />
+                    <TextField
+                        size={"small"}
+                        fullWidth
+                        label={"隔日"}
+                        value={props.animeInfo.intervalDays}
+                        onChange={(e) =>
+                            props.updateAnimeInfo({intervalDays: Number(e.target.value)})}
+                        inputProps={{
+                            inputMode: "numeric",
+                            pattern: "[0-9]*"
+                        }}
+                    />
+                </FormControl>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={() => setDeleteDialog(true)}>
+                    削除
+                </Button>
+                <Button onClick={() => setOpen(false)}>
+                    閉じる
+                </Button>
+                <Dialog open={deleteDialog}>
+                    <DialogTitle>{props.animeInfo.name}を削除しますか？</DialogTitle>
+                    <DialogActions>
+                        <Button onClick={() => props.delete()}>
+                            削除
+                        </Button>
+                        <Button onClick={() => setOpen(false)}>
+                            キャンセル
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </DialogActions>
+        </Dialog>
     </TableRow>
 }
 
