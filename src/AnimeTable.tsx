@@ -3,17 +3,16 @@ import {addDays, compareAsc, compareDesc, endOfDay, format, startOfDay} from "da
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import jaLocale from "date-fns/locale/ja";
-import {
-    Button, Checkbox,
-    FormControlLabel,
-    Switch,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableRow,
-    TextField
-} from "@mui/material";
+import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import TextField from "@mui/material/TextField";
 import {DatePicker} from "@mui/lab";
 import "./AnimeTable.css";
 import {encode} from "base64-arraybuffer";
