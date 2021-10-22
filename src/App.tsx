@@ -39,8 +39,8 @@ function serialize(allAnimeInfo: AllAnimeInfo) {
             bytes[byte] |= 0x80 >> (bit % 8);
         }
         return encode(bytes.buffer)
-            .replace(/^A*/, '')
             .replace(/=*$/, '')
+            .replace(/A*$/, '')
     }
 
     function resize(bytes: Uint8Array, least: number): Uint8Array {
@@ -86,7 +86,7 @@ function deserialize(text: string): AllAnimeInfo {
     function stringToBits(text: string): Set<number> {
         const bits = new Set<number>();
         const paddedLen = Math.ceil(text.length / 4) * 4;
-        let bytes = new Uint8Array(decode(text.padStart(paddedLen, 'A')));
+        let bytes = new Uint8Array(decode(text.padEnd(paddedLen, 'A')));
         const bitCnt = bytes.length * 8;
 
         for (let i = 0; i < bitCnt; i++)
