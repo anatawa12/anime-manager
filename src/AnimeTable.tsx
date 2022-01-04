@@ -139,7 +139,7 @@ class AnimeTable extends React.Component<AnimeTableProps, AnimeTableState> {
 
             for (let index = 0; ; index++) {
                 const available = computeAvailableDate(index, info)
-                if (compareAsc(available, theDayNextWillBeReleased) > 0) break;
+                if (index !== 0 && compareAsc(available, theDayNextWillBeReleased) > 0) break;
                 if (map.has(index)) continue;
                 array.push({
                     id, index, info, available,
