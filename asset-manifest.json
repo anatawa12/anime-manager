@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/anime-manager/static/css/main.7cb7cd66.chunk.css",
-    "main.js": "/anime-manager/static/js/main.be2e0197.chunk.js",
-    "main.js.map": "/anime-manager/static/js/main.be2e0197.chunk.js.map",
+    "main.js": "/anime-manager/static/js/main.d4536b77.chunk.js",
+    "main.js.map": "/anime-manager/static/js/main.d4536b77.chunk.js.map",
     "runtime-main.js": "/anime-manager/static/js/runtime-main.18854cb0.js",
     "runtime-main.js.map": "/anime-manager/static/js/runtime-main.18854cb0.js.map",
     "static/js/2.6e72af5c.chunk.js": "/anime-manager/static/js/2.6e72af5c.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.18854cb0.js",
     "static/js/2.6e72af5c.chunk.js",
     "static/css/main.7cb7cd66.chunk.css",
-    "static/js/main.be2e0197.chunk.js"
+    "static/js/main.d4536b77.chunk.js"
   ]
 }
